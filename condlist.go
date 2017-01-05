@@ -11,8 +11,7 @@ type CondListQueue struct {
 	// Condition Variable protecting access this `q`.
 	cond *sync.Cond
 
-	// Elements in the list, in reverse order: front of the list
-	// is the back of the queue.
+	// Elements in the queue.
 	q *list.List
 }
 
@@ -29,7 +28,7 @@ func (this *CondListQueue) PopFront() interface{} {
 	for this.q.Len() == 0 {
 		this.cond.Wait()
 	}
-	e := this.q.Back()
+	e := this.q.Front()
 	defer this.q.Remove(e)
 	return e.Value
 }
@@ -37,6 +36,6 @@ func (this *CondListQueue) PopFront() interface{} {
 func (this *CondListQueue) PushBack(v interface{}) {
 	this.cond.L.Lock()
 	defer this.cond.L.Unlock()
-	this.q.PushFront(v)
+	this.q.PushBack(v)
 	this.cond.Signal()
 }
