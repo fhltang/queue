@@ -96,8 +96,8 @@ func SerialPushSerialPop(q queue.Queue) {
 	}
 }
 
-// Benchmark: push items concurrently and read them serially.
-func ConcurrentPushSerialPop(q queue.Queue) {
+// Benchmark: concurrently push items and read items.
+func ConcurrentSerialPushSerialPop(q queue.Queue) {
 	N := 10000
 	go func() {
 		for j := 0; j < N; j++ {
@@ -148,7 +148,7 @@ type Benchmark struct {
 var Benchmarks = []Benchmark{
 	Benchmark{"New", func(q queue.Queue) { return } },
 	Benchmark{"SerialPushSerialPop", SerialPushSerialPop},
-	Benchmark{"ConcurrentPushSerialPop", ConcurrentPushSerialPop},
+	Benchmark{"ConcurrentPushSerialPop", ConcurrentSerialPushSerialPop},
 	Benchmark{"SerialPushConcurrentPop", SerialPushConcurrentPop},
 	Benchmark{"AlternatePushPop", AlternatePushPop},
 }
